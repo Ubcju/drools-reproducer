@@ -1,0 +1,30 @@
+package com.example.ruleunit
+
+unit PersonUnit
+
+import com.model.Person
+import com.model.Child
+import com.model.House
+import com.model.School
+
+rule "Rule 1"
+when
+    $person: Person() from entry-point people
+    exists Child(age > 18) from $person.children
+    not School() from entry-point schools
+    House() from entry-point houses
+then
+    rulesFired.add("rule1");
+end
+
+rule "Rule 2"
+when
+    House() from entry-point houses
+    $person: Person() from entry-point people
+    exists Child(age > 18) from $person.children
+    not School() from entry-point schools
+then
+    rulesFired.add("rule2");
+end
+
+
